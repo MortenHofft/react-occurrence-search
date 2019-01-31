@@ -24,9 +24,6 @@ const styles = theme => ({
     background: 'white',
     borderSpacing: 0,
     fontSize: 12,
-    '& td th': {
-      padding: '0.25em'
-    },
     '& th, td': {
       borderRight: '1px solid #e5ebed',
       transition: 'background-color 200ms ease',
