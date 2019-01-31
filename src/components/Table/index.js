@@ -1,29 +1,88 @@
-import React, { Component } from "react";
-import _ from "lodash";
-import injectSheet from "react-jss";
-import tableStyle from "./style";
+import React, { Component } from 'react';
+import _ from 'lodash';
+import injectSheet from 'react-jss';
+
+const cell = {
+  margin: '0 10px',
+  display: 'block',
+  wordBreak: 'break-word'
+};
 
 const styles = theme => ({
-  occurrenceTable: tableStyle(theme),
-  icon: {
-    fontSize: 14,
-    color: '#aaa',
-    marginLeft: 5,
-    cursor: 'pointer'
-  }
+  occurrenceTable: {
+    width: '100%', // layout
+    height: '100%', // layout
+    overflow: 'scroll', // layout
+    position: 'relative', // layout
+    background: 'white',
+    border: '1px solid #e5ebed',
+    borderRadius: 5
+  },
+  table: {
+    position: 'relative', // layout
+    borderCollapse: 'separate',
+    background: 'white',
+    borderSpacing: 0,
+    fontSize: 12,
+    '& td th': {
+      padding: '0.25em'
+    },
+    '& th, td': {
+      borderRight: '1px solid #e5ebed',
+      transition: 'background-color 200ms ease',
+      borderBottom: '1px solid #e5ebed',
+      textAlign: 'left',
+    },
+    '& thead th': {
+      position: 'sticky', // layout
+      top: 0, // layout
+      borderBottomWidth: '2px',
+      background: '#f7f9fa',
+      color: '#8091a5',
+    },
+    '& tbody th': {
+      borderRight: '1px solid #e5ebed',
+      background: 'white'
+    }
+  },
+  stickyColumn: {
+    '& thead th:first-child': {
+      left: 0, // layout - sticky col
+      zIndex: 1 // layout
+    },
+    '& tbody th': {
+      position: 'sticky', // layout - sticky col
+      left: 0, // layout - sticky col
+    }
+  },
+  scrolled: {
+    '& td': {
+      backgroundColor: '#fbfbfb'
+    },
+    '& thead th': {
+      background: '#f1f3f5'
+    },
+    '& thead th:first-of-type': {
+      background: '#f7f9fa',
+    }
+  },
+  wide: {
+    width: '20em',
+    ...cell
+  },
 });
 
-export const Th = ({children, width=300, ...rest}) => (
-  <th {...rest}>
-    <span style={{width: width}}>{children}</span>
+export const Th = injectSheet(styles)(({ children, width, classes, theme, ...rest }) => (
+  <th className={classes.th} {...rest}>
+    <span className={classes[width] ? `wide ${classes[width]}` : null}>{children}</span>
   </th>
-);
+));
 
-export const Td = ({children, width=300, ...rest}) => (
-  <td {...rest}>
-    <span style={{width: width}}>{children}</span>
+export const Td = injectSheet(styles)(({ children, width, classes, theme, ...rest }) => (
+  <td className={classes.td}  {...rest}>
+    <span className={classes[width] ? classes[width] : null}>{children}</span>
   </td>
-);
+));
 
 class Table extends Component {
   constructor(props) {
@@ -53,24 +112,24 @@ class Table extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, classes } = this.props;
 
-    const scrolled = this.state.scrolled ? "scrolled" : "";
-    const stickyCol = this.state.stickyCol ? "stickyCol" : "";
+    const scrolled = this.state.scrolled ? `scrolled ${classes.scrolled}` : '';
+    const stickyCol = this.state.stickyCol ? `stickyColumn ${classes.stickyColumn}` : '';
 
     return (
       <React.Fragment>
-        <section className={this.props.classes.occurrenceTable}>
-          <div className="tableArea">
-            <table
-              className={scrolled + " " + stickyCol}
-              onScroll={this.bodyScroll}
-              ref={this.myRef}
-            >
-              {children}
-            </table>
-          </div>
-        </section>
+        <div
+          className={`occurrenceTable ${classes.occurrenceTable}`}
+          onScroll={this.bodyScroll}
+          ref={this.myRef}
+        >
+          <table
+            className={`${classes.table} ${scrolled} ${stickyCol}`}
+          >
+            {children}
+          </table>
+        </div>
       </React.Fragment>
     );
   }
