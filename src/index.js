@@ -30,7 +30,7 @@ export default class extends Component {
         <ThemeProvider theme={theme}>
           <div style={{ display: "flex", width: "700px", height: "700px", flexDirection: 'column' }}>
             <div style={{ flex: "1 1 auto%", height: '75%', background: "yellow" }}>
-              <Table>
+              <Table fixedColumn>
                 <thead>
                   <tr>{headers}</tr>
                 </thead>

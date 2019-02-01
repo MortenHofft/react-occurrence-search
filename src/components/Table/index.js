@@ -3,7 +3,6 @@ import _ from 'lodash';
 import injectSheet from 'react-jss';
 
 const cell = {
-  margin: '0 10px',
   display: 'block',
   wordBreak: 'break-word'
 };
@@ -36,10 +35,10 @@ const styles = theme => ({
       borderBottomWidth: '2px',
       background: '#f7f9fa',
       color: '#8091a5',
+      padding: '8px 12px'
     },
     '& td': {
-      paddingTop: 16,
-      paddingBottom: 16,
+      padding: 12
     },
     '& tbody>tr>td:first-child': {
       borderRight: '1px solid #e5ebed',
@@ -96,7 +95,7 @@ class Table extends Component {
     this.myRef = React.createRef();
 
     this.state = {
-      stickyCol: true
+      stickyCol: props.fixedColumn
     };
   }
 

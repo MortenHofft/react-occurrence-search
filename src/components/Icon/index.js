@@ -1,0 +1,1 @@
+//usage <Icon type="logout"/>
