@@ -37,7 +37,11 @@ const styles = theme => ({
       background: '#f7f9fa',
       color: '#8091a5',
     },
-    '& tbody th': {
+    '& td': {
+      paddingTop: 16,
+      paddingBottom: 16,
+    },
+    '& tbody>tr>td:first-child': {
       borderRight: '1px solid #e5ebed',
       background: 'white'
     }
@@ -47,7 +51,7 @@ const styles = theme => ({
       left: 0, // layout - sticky col
       zIndex: 1 // layout
     },
-    '& tbody th': {
+    '& tbody>tr>td:first-child': {
       position: 'sticky', // layout - sticky col
       left: 0, // layout - sticky col
     }

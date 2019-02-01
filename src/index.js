@@ -13,13 +13,13 @@ export default class extends Component {
       .split("")
       .forEach((x, i) => headers.push(<Th key={i} width="wide">header columns {x}</Th>));
 
-    const cells = [<th key="sdf">scientific name</th>];
+    const cells = [<td key="sdf">Phellodon P.Karst.</td>];
     "1928376129837"
       .split("")
       .forEach((x, i) =>
         cells.push(
           <Td key={i + "_"}>
-            {Math.random()} sdflgjk ksjdf glksjdfæglkjsdf ælgkjsædflkgj sdlækfgj{" "}
+            Phellodon P.Karst. 
           </Td>
         )
       );
