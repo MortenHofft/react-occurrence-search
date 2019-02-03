@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ThemeProvider } from "react-jss";
+
 import Table, { Th, Td } from "./components/Table";
 
 const theme = {
@@ -11,7 +12,7 @@ export default class extends Component {
     const headers = [];
     "19283761298376"
       .split("")
-      .forEach((x, i) => headers.push(<Th key={i} width="wide">header columns {x}</Th>));
+      .forEach((x, i) => headers.push(<Th key={i} width="wide" toggle={i===0}>header columns {x}</Th>));
 
     const cells = [<td key="sdf">Phellodon P.Karst.</td>];
     "1928376129837"

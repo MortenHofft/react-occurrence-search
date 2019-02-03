@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import injectSheet from 'react-jss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 const cell = {
   display: 'block',
@@ -72,9 +74,9 @@ const styles = theme => ({
   },
 });
 
-export const Th = injectSheet(styles)(({ children, width, classes, theme, ...rest }) => (
+export const Th = injectSheet(styles)(({ children, width, toggle, classes, theme, ...rest }) => (
   <th className={classes.th} {...rest}>
-    <span className={classes[width] ? `wide ${classes[width]}` : null}>{children}</span>
+    <span className={classes[width] ? `wide ${classes[width]}` : null}>{children} {toggle && <FontAwesomeIcon icon={faLock} />}</span>
   </th>
 ));
 
