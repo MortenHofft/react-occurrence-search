@@ -1,5 +1,13 @@
 import React from 'react';
+import injectSheet from 'react-jss';
 
-export default ({children , ...rest}) => <span {...rest} role="button" tabIndex="0">
+const styles = {
+  button: {
+    cursor: 'pointer'
+  }
+}
+const Action = ({children, classes, className, ...rest}) => <span className={`${classes.button} ${className}`} {...rest} role="button" tabIndex="0">
   {children}
 </span>
+
+export default injectSheet(styles)(Action);

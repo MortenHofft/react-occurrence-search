@@ -3,6 +3,7 @@ import _ from 'lodash';
 import injectSheet from 'react-jss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faAngleDoubleLeft, faAngleLeft, faAngleRight, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import Action from '../Action'
 
@@ -29,29 +30,7 @@ const styles = theme => {
     wrapper: {
       border: '1px solid #e5ebed',
       borderRadius: borderRadius,
-      height: '100%',
-      '& .tooltip:hover': {
-        position: 'relative',
-        '&[tip]:before': {
-          borderRadius: '2px',
-          backgroundColor: '#585858',
-          color: '#fff',
-          content: 'attr(tip)',
-          fontSize: '12px',
-          padding: '5px 7px',
-          margin: 7,
-          position: 'absolute',
-          whiteSpace: 'nowrap',
-          zIndex: 25,
-          lineHeight: '1.2em',
-          right: '120%',
-          pointerEvents: 'none',
-        },
-        '&[direction="right"]:before': {
-          left: '120%',
-          right: 'auto',
-        },
-      }
+      height: '100%'
     },
     occurrenceTable: {
       width: '100%', // layout
@@ -183,7 +162,7 @@ class Table extends Component {
   }
 
   render() {
-    const { children, classes } = this.props;
+    const { children, classes, intl } = this.props;
 
     const scrolled = this.state.scrolled ? `scrolled ${classes.scrolled}` : '';
     const stickyCol = this.state.stickyCol ? `stickyColumn ${classes.stickyColumn}` : '';
@@ -203,10 +182,10 @@ class Table extends Component {
             </table>
           </div>
           <div className={classes.footer}>
-            <Action className={'tooltip ' + classes.footerItem} direction="right" tip="Go to first page">
+            <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'first' })}>
               <FontAwesomeIcon icon={faAngleDoubleLeft} />
             </Action>
-            <Action className={'tooltip ' + classes.footerItem} direction="right" tip="Previous">
+            <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'previous' })}>
               <FontAwesomeIcon icon={faAngleLeft} />
             </Action>
             <span className={classes.footerItemFiller}></span>
@@ -214,10 +193,10 @@ class Table extends Component {
               Page 5 of 1000
             </span>
             <span className={classes.footerItemFiller}></span>
-            <Action className={'tooltip ' + classes.footerItem} tip="Next page">
+            <Action className={'tooltip ' + classes.footerItem} tip={intl.formatMessage({ id: 'next' })}>
               <FontAwesomeIcon icon={faAngleRight} />
             </Action>
-            <Action className={'tooltip ' + classes.footerItem} tip="Options">
+            <Action className={'tooltip ' + classes.footerItem} tip={intl.formatMessage({ id: 'options' })}>
               <FontAwesomeIcon icon={faEllipsisV} />
             </Action>
           </div>
@@ -227,4 +206,4 @@ class Table extends Component {
   }
 }
 
-export default injectSheet(styles)(Table);
+export default injectSheet(styles)(injectIntl(Table));
