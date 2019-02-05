@@ -90,5 +90,5 @@ const styles = theme => {
 //   </StateContext.Consumer>
 // );
 
-const mapContextToProps = ({ activeView, api }) => ({ activeView, updateView: api.updateView });
+const mapContextToProps = ({ activeView, stateApi }) => ({ activeView, updateView: stateApi.updateView });
 export default injectSheet(styles)(withContext(mapContextToProps)(AppMenu));

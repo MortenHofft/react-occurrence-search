@@ -11,5 +11,6 @@ export default {
 		'appMenu.table': 'Table',
 		'appMenu.gallery': 'Images',
 		'appMenu.map': 'Map',
+		'pagination.pageXofY': 'Page {current} of {total}'
 	}
 }

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
 import withContext from '../appState/withContext';
-
-import Table, { Th, Td } from './Table';
 import Layout from './Layout';
 import QuickSearch from './QuickSearch';
 import AppMenu from './AppMenu';
+import Table from './views/Table';
 
 class App extends Component {
   constructor(props) {
@@ -28,37 +27,6 @@ class App extends Component {
     const { classes } = this.props;
 
 
-    const headers = [];
-    "19283761298376"
-      .split("")
-      .forEach((x, i) => headers.push(<Th key={i} width="wide" toggle={i===0}>header columns {x}</Th>));
-
-    const cells = [<td key="sdf">Phellodon P.Karst.</td>];
-    "1928376129837"
-      .split("")
-      .forEach((x, i) =>
-        cells.push(
-          <Td key={i + "_"}>
-            Phellodon P.Karst. 
-          </Td>
-        )
-      );
-
-    const row = <tr>{cells}</tr>;
-
-    const table = (<Table fixedColumn>
-        <thead>
-          <tr>{headers}</tr>
-        </thead>
-        <tbody>
-          {row}
-          {row}
-          {row}
-          {row}
-          {row}
-          {row}
-        </tbody>
-    </Table>);
 
     return (
       <div ref={this.props.appRef} className={classes.app}>
@@ -67,7 +35,7 @@ class App extends Component {
             quickSearch={<QuickSearch />}
             filterSummary={<div>Filters</div>}
             widgetDrawer={<div>widgets</div>}
-            table={table}
+            table={<Table />}
             map={<div>Map</div>}
             gallery={<div>Gallery</div>}
             appMenu={<AppMenu />}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelative, FormattedNumber } from 'react-intl';
 import PropTypes from 'prop-types';
 
 const RelativeDate = ({ value }) => {
@@ -17,4 +17,11 @@ Message.propTypes = {
   id: PropTypes.string
 };
 
-export { RelativeDate as FormattedRelative, Message as FormattedMessage };
+const Number = ({ count }) => {
+  return <FormattedNumber value={count}/>;
+};
+Number.propTypes = {
+  count: PropTypes.Number
+};
+
+export { RelativeDate as FormattedRelative, Message as FormattedMessage, Number as FormattedNumber };

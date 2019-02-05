@@ -1,6 +1,7 @@
 // This file holds the majority of the app state: current filters, current view, update function etc.
 import React from 'react';
 import AppContext from './AppContext';
+import api from '../api';
 
 export const views = {
   TABLE: 'TABLE',
@@ -16,11 +17,12 @@ class StateProvider extends React.Component {
       appRef: React.createRef(),
       activeView: 'TABLE',
       // filter, // current filter
-      api: {
+      stateApi: {
         updateView: this.updateView, // update the active view
         // updateFilter, // updates a single field
         // updateQuery, // sets the full query
-      }
+      },
+      api
     }
   }
 

@@ -4,7 +4,7 @@ import injectSheet from 'react-jss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faAngleDoubleLeft, faAngleLeft, faAngleRight, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { injectIntl } from 'react-intl';
-
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Action from '../Action'
 
 const cell = {
@@ -162,10 +162,13 @@ class Table extends Component {
   }
 
   render() {
-    const { children, classes, intl } = this.props;
+    const { children, classes, intl, first, prev, next, size, from, total } = this.props;
 
     const scrolled = this.state.scrolled ? `scrolled ${classes.scrolled}` : '';
     const stickyCol = this.state.stickyCol ? `stickyColumn ${classes.stickyColumn}` : '';
+
+    const page = 1 + Math.floor(from/size);
+    const totalPages = Math.ceil(total/size);
 
     return (
       <React.Fragment>
@@ -182,20 +185,24 @@ class Table extends Component {
             </table>
           </div>
           <div className={classes.footer}>
-            <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'first' })}>
+            {page > 2 && <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'first' })} onSelect={first}>
               <FontAwesomeIcon icon={faAngleDoubleLeft} />
-            </Action>
-            <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'previous' })}>
+            </Action>}
+            {page > 1 && <Action className={'tooltip ' + classes.footerItem} direction="right" tip={intl.formatMessage({ id: 'previous' })} onSelect={prev}>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </Action>
+            </Action>}
             <span className={classes.footerItemFiller}></span>
             <span className={classes.footerText}>
-              Page 5 of 1000
+              <FormattedMessage
+                id='pagination.pageXofY'
+                defaultMessage={'Loading'}
+                values={{ current: <FormattedNumber value={page}/>, total: <FormattedNumber value={totalPages}/> }}
+              />
             </span>
             <span className={classes.footerItemFiller}></span>
-            <Action className={'tooltip ' + classes.footerItem} direction="left" tip={intl.formatMessage({ id: 'next' })}>
+            {page !== totalPages && <Action className={'tooltip ' + classes.footerItem} direction="left" tip={intl.formatMessage({ id: 'next' })} onSelect={next}>
               <FontAwesomeIcon icon={faAngleRight} />
-            </Action>
+            </Action>}
             <Action className={'tooltip ' + classes.footerItem} direction="left" tip={intl.formatMessage({ id: 'options' })}>
               <FontAwesomeIcon icon={faEllipsisV} />
             </Action>

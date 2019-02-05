@@ -11,5 +11,6 @@ export default {
 		'appMenu.table': 'Tabel',
 		'appMenu.gallery': 'Galleri',
 		'appMenu.map': 'Kort',
+		'pagination.pageXofY': 'Side {current} af {total}'
 	}
 }
