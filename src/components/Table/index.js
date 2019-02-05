@@ -3,7 +3,7 @@ import _ from 'lodash';
 import injectSheet from 'react-jss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faAngleDoubleLeft, faAngleLeft, faAngleRight, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import Action from '../Action'
 
@@ -35,7 +35,7 @@ const styles = theme => {
     occurrenceTable: {
       width: '100%', // layout
       height: 'calc(100% - 50px)', // layout
-      overflow: 'scroll', // layout
+      overflow: 'auto', // layout
       position: 'relative', // layout
       background: 'white',
       borderRadius: `${borderRadius} ${borderRadius} 0 0`
@@ -193,10 +193,10 @@ class Table extends Component {
               Page 5 of 1000
             </span>
             <span className={classes.footerItemFiller}></span>
-            <Action className={'tooltip ' + classes.footerItem} tip={intl.formatMessage({ id: 'next' })}>
+            <Action className={'tooltip ' + classes.footerItem} direction="left" tip={intl.formatMessage({ id: 'next' })}>
               <FontAwesomeIcon icon={faAngleRight} />
             </Action>
-            <Action className={'tooltip ' + classes.footerItem} tip={intl.formatMessage({ id: 'options' })}>
+            <Action className={'tooltip ' + classes.footerItem} direction="left" tip={intl.formatMessage({ id: 'options' })}>
               <FontAwesomeIcon icon={faEllipsisV} />
             </Action>
           </div>

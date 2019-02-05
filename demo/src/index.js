@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-import { OccurrenceSearch } from "../../src";
+import OccurrenceSearch from "../../src";
 import da from '../../src/locales/da';
 
 const themeBlue = {
-  primary: "deepskyblue"
+  primaryColor: "#00bfff"
 };
 
 const themeRed = {
-  primary: "tomato"
+  primaryColor: "tomato"
 };
 
 class Demo extends Component {
@@ -30,7 +30,9 @@ class Demo extends Component {
           <button onClick={() => this.setState({ locale: 'en' })}>English</button>
           <button onClick={() => this.setState({ locale: da })}>Dansk</button>
         </div>
-        <OccurrenceSearch locale={da} theme={this.state.theme} />
+        <div style={{height: 'calc(100vh - 63px)'}}>
+          <OccurrenceSearch locale={this.state.locale} theme={this.state.theme} />
+        </div>
       </div>
     );
   }

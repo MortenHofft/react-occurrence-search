@@ -7,6 +7,9 @@ export default {
 		first: 'Første side',
 		previous: 'Forrige side',
 		next: 'Næste side',
-		options: 'Menu'
+		options: 'Menu',
+		'appMenu.table': 'Tabel',
+		'appMenu.gallery': 'Galleri',
+		'appMenu.map': 'Kort',
 	}
 }

@@ -8,21 +8,17 @@ import App from "./components/App";
 import en from "./locales/en";
 
 const defaultTheme = {
-  primary: "pink"
+  primary: "pink",
+  fontSizePx: 14
 };
 
 class OccurrenceSearch extends React.Component {
   constructor(props) {
     super(props);
 
-    const locale = this.props.locale === "en" ? en : this.props.locale;
-    const { intl, messages, locale: localeName } = locale;
-    addLocaleData([...intl]);
-
     this.state = {
       theme: this.getTheme(),
-      messages,
-      locale
+      ...this.getLocaleData()
     };
   }
 
@@ -32,7 +28,7 @@ class OccurrenceSearch extends React.Component {
       this.setState({ theme: this.getTheme() });
     }
     if (this.props.locale !== prevProps.locale) {
-      this.setLocaleData();
+      this.setState({ ...this.getLocaleData() });
     }
   }
 
@@ -41,21 +37,21 @@ class OccurrenceSearch extends React.Component {
     return Object.assign({}, defaultTheme, this.props.theme);
   }
 
-  setLocaleData = () => {
+  getLocaleData() {
     const locale = this.props.locale === "en" ? en : this.props.locale;
     const { intl, messages, locale: localeName } = locale;
     addLocaleData([...intl]);
-    this.setState({ messages, locale: localeName });
-  };
+    return { messages, locale: localeName };
+  }
 
   render() {
     const { settings } = this.props;
 
     return (
-      <StateProvider>
+      <StateProvider settings={settings}>
         <IntlProvider locale={this.state.locale} messages={this.state.messages}>
           <ThemeProvider theme={this.state.theme}>
-            {this.state.messages && <App settings={settings} />}
+            <App settings={settings} />
           </ThemeProvider>
         </IntlProvider>
       </StateProvider>
@@ -69,5 +65,4 @@ OccurrenceSearch.propTypes = {
   locale: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 };
 
-const Test = () => <div>Hej</div>;
-export { OccurrenceSearch, Test };
+export default OccurrenceSearch;

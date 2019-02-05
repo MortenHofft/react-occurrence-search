@@ -1,12 +1,21 @@
 import React from 'react';
 import injectSheet from 'react-jss';
+const KEY_SPACE = 32;
+const KEY_ENTER = 13;
 
 const styles = {
   button: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   }
 }
-const Action = ({children, classes, className, ...rest}) => <span className={`${classes.button} ${className}`} {...rest} role="button" tabIndex="0">
+const keypressHandler = (event, cb) => {
+  if (event.which === KEY_SPACE || event.which === KEY_ENTER) {
+    event.stopPropagation;
+    return cb();
+  }
+  return true;
+}
+const Action = ({ children, onSelect = () => {}, classes, className, ...rest }) => <span onClick={() => onSelect()} onKeyPress={e => keypressHandler(e, onSelect)} className={`${classes.button} ${className}`} {...rest} role="button" tabIndex="0">
   {children}
 </span>
 

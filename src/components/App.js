@@ -1,22 +1,94 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
-import {
-  FormattedRelative,
-  FormattedMessage
-} from 'react-intl';
+import withContext from '../appState/withContext';
 
-import Table, { Th, Td } from "./Table";
+import Table, { Th, Td } from './Table';
+import Layout from './Layout';
+import QuickSearch from './QuickSearch';
+import AppMenu from './AppMenu';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    const { classes, appRef } = props;
+
+    // Add styling clues
+    // We will only show outlines if it is a keyboard user. Else all those blue outlines is a bit much.
+    document.body.addEventListener('mousedown', () => {
+      appRef.current.classList.add(classes.mouseUser);
+    });
+    document.body.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        appRef.current.classList.remove(classes.mouseUser);
+      }
+    });
+  }
+
+  render() {
+    const { classes } = this.props;
+
+
+    const headers = [];
+    "19283761298376"
+      .split("")
+      .forEach((x, i) => headers.push(<Th key={i} width="wide" toggle={i===0}>header columns {x}</Th>));
+
+    const cells = [<td key="sdf">Phellodon P.Karst.</td>];
+    "1928376129837"
+      .split("")
+      .forEach((x, i) =>
+        cells.push(
+          <Td key={i + "_"}>
+            Phellodon P.Karst. 
+          </Td>
+        )
+      );
+
+    const row = <tr>{cells}</tr>;
+
+    const table = (<Table fixedColumn>
+        <thead>
+          <tr>{headers}</tr>
+        </thead>
+        <tbody>
+          {row}
+          {row}
+          {row}
+          {row}
+          {row}
+          {row}
+        </tbody>
+    </Table>);
+
+    return (
+      <div ref={this.props.appRef} className={classes.app}>
+        <Layout 
+            activeView={this.props.activeView}
+            quickSearch={<QuickSearch />}
+            filterSummary={<div>Filters</div>}
+            widgetDrawer={<div>widgets</div>}
+            table={table}
+            map={<div>Map</div>}
+            gallery={<div>Gallery</div>}
+            appMenu={<AppMenu />}
+          />
+      </div>
+    );
+  }
+}
 
 const styles = theme => ({
   mouseUser: {
-    outline: 'none' // We will only show outlines if it is a keyboard user. Else all those blue outlines is a bit much.
+    '& :focus': {
+      outline: 'none' // We will only show outlines if it is a keyboard user. Else all those blue outlines is a bit much.
+    }
   },
   app: {
     position: 'relative',
     background: '#f2f6f9',
     height: '100%',
-    color: theme.primary,//'#2e3c43',
-    fontSize: '14px',
+    color: '#2e3c43',
+    fontSize: `${theme.fontSizePx}px`,
     boxSizing: 'border-box',
     fontSmoothing: 'antialiased',
     fontFamily: 'Open sans, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
@@ -46,84 +118,35 @@ const styles = theme => ({
         content: 'attr(tip)',
         fontSize: '12px',
         padding: '5px 7px',
-        margin: 7,
         position: 'absolute',
         whiteSpace: 'nowrap',
         zIndex: 25,
         lineHeight: '1.2em',
-        right: '120%',
         pointerEvents: 'none',
       },
       '&[direction="right"]:before': {
+        top: '50%',
         left: '120%',
-        right: 'auto',
+        transform: 'translateY(-50%)'
       },
+      '&[direction="left"]:before': {
+        top: '50%',
+        right: '120%',
+        transform: 'translateY(-50%)'
+      },
+      '&[direction="top"]:before': {
+        right: '50%',
+        bottom: '120%',
+        transform: 'translateX(50%)'
+      },
+      '&[direction="bottom"]:before': {
+        right: '50%',
+        top: '120%',
+        transform: 'translateX(50%)'
+      }
     }
   }
 });
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    const { classes } = props;
-
-    this.myRef = React.createRef();
-
-    // Add styling clues
-    // We will only show outlines if it is a keyboard user. Else all those blue outlines is a bit much.
-    document.body.addEventListener('mousedown', () => {
-      this.myRef.current.classList.add(classes.mouseUser);
-    });
-    document.body.addEventListener('keydown', e => {
-      if (e.key === 'Tab') {
-        this.myRef.current.classList.remove(classes.mouseUser);
-      }
-    });
-  }
-
-  render() {
-    const { classes } = this.props;
-
-
-    const headers = [];
-    "19283761298376"
-      .split("")
-      .forEach((x, i) => headers.push(<Th key={i} width="wide" toggle={i===0}>header columns {x}</Th>));
-
-    const cells = [<td key="sdf">Phellodon P.Karst.</td>];
-    "1928376129837"
-      .split("")
-      .forEach((x, i) =>
-        cells.push(
-          <Td key={i + "_"}>
-            Phellodon P.Karst. 
-          </Td>
-        )
-      );
-
-    const row = <tr>{cells}</tr>;
-
-    return (
-      <div ref={this.myRef} className={classes.app}>
-        <div style={{ flex: "1 1 auto%", height: '75%' }}>
-          <Table fixedColumn>
-            <thead>
-              <tr>{headers}</tr>
-            </thead>
-            <tbody>
-              {row}
-              {row}
-              {row}
-              {row}
-              {row}
-              {row}
-            </tbody>
-          </Table>
-        </div>
-        
-      </div>
-    );
-  }
-}
-
-export default injectSheet(styles)(App);
+const mapContextToProps = ({ appRef, activeView }) => ({ appRef, activeView });
+export default injectSheet(styles)(withContext(mapContextToProps)(App));

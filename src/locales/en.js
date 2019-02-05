@@ -7,6 +7,9 @@ export default {
 		first: 'First',
 		previous: 'Previous',
 		next: 'Next',
-		options: 'Options'
+		options: 'Options',
+		'appMenu.table': 'Table',
+		'appMenu.gallery': 'Images',
+		'appMenu.map': 'Map',
 	}
 }
