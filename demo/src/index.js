@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-import OccurrenceSearch from "../../src";
+import { OccurrenceSearch } from "../../src";
+import da from '../../src/locales/da';
 
 const themeBlue = {
   primary: "deepskyblue"
@@ -27,9 +28,9 @@ class Demo extends Component {
           <button onClick={() => this.setState({ theme: themeRed })}>Red</button>
           <span style={{paddingRight: 10}}></span>
           <button onClick={() => this.setState({ locale: 'en' })}>English</button>
-          <button onClick={() => this.setState({ locale: 'da' })}>Dansk</button>
+          <button onClick={() => this.setState({ locale: da })}>Dansk</button>
         </div>
-        <OccurrenceSearch locale={this.state.locale} theme={this.state.theme} />
+        <OccurrenceSearch locale={da} theme={this.state.theme} />
       </div>
     );
   }
