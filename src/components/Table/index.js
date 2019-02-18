@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import injectSheet from 'react-jss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faAngleDoubleLeft, faAngleLeft, faAngleRight, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faAngleDoubleLeft, faAngleLeft, faAngleRight, faEllipsisV, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { injectIntl } from 'react-intl';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import Action from '../Action'
+import Action from '../Action';
 
 const cell = {
   display: 'block',
@@ -122,15 +121,15 @@ const styles = theme => {
   }
 };
 
-export const Th = injectSheet(styles)(({ children, width, toggle, classes, theme, ...rest }) => (
+export const Th = injectSheet(styles)(({ children, width, toggle, locked, classes, theme, ...rest }) => (
   <th className={classes.th} {...rest}>
-    <span className={classes[width] ? `wide ${classes[width]}` : null}>{children} {toggle && <FontAwesomeIcon icon={faLock} />}</span>
+    <span className={classes[width] ? `wide ${classes[width]}` : ''}>{children} {toggle && <Action onSelect={toggle}><FontAwesomeIcon icon={locked ? faLock : faLockOpen} /> </Action>}</span>
   </th>
 ));
 
 export const Td = injectSheet(styles)(({ children, width, classes, theme, ...rest }) => (
   <td className={classes.td}  {...rest}>
-    <span className={classes[width] ? classes[width] : null}>{children}</span>
+    <span className={classes[width] ? classes[width] : ''}>{children}</span>
   </td>
 ));
 
@@ -143,10 +142,7 @@ class Table extends Component {
     this.handleHide = this.handleHide.bind(this);
 
     this.myRef = React.createRef();
-
-    this.state = {
-      stickyCol: props.fixedColumn
-    };
+    this.state = {};
   }
 
   bodyScroll() {
@@ -165,7 +161,7 @@ class Table extends Component {
     const { children, classes, intl, first, prev, next, size, from, total } = this.props;
 
     const scrolled = this.state.scrolled ? `scrolled ${classes.scrolled}` : '';
-    const stickyCol = this.state.stickyCol ? `stickyColumn ${classes.stickyColumn}` : '';
+    const stickyCol = this.props.fixedColumn ? `stickyColumn ${classes.stickyColumn}` : '';
 
     const page = 1 + Math.floor(from/size);
     const totalPages = Math.ceil(total/size);

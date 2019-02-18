@@ -2,6 +2,8 @@
 import React from 'react';
 import AppContext from './AppContext';
 import api from '../api';
+import TablePresentation from '../components/views/Table/TablePresentation';
+import { get } from 'lodash';
 
 export const views = {
   TABLE: 'TABLE',
@@ -13,15 +15,20 @@ class StateProvider extends React.Component {
   constructor(props) {
     super(props);
 
+    const components = {
+      TableView: get(props, 'settings.components.TableView', TablePresentation)
+    }
+
     this.state = {
       appRef: React.createRef(),
       activeView: 'TABLE',
-      // filter, // current filter
+      filter: {},//{year: [2018, {gte: 1928, lt:1929}]}, // current filter
       stateApi: {
         updateView: this.updateView, // update the active view
         // updateFilter, // updates a single field
         // updateQuery, // sets the full query
       },
+      components,
       api
     }
   }

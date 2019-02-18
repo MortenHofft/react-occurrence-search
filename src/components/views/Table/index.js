@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import withContext from "../../../appState/withContext";
-import TablePresentation from './TablePresentation'
 
 class Table extends Component {
   constructor(props) {
@@ -8,7 +7,8 @@ class Table extends Component {
     this.state = {
 			loading: true, 
 			error: false, 
-			page: { size: 50, from: 0 },
+			size: 20,
+			from: 20,
 			data: {hits: {hits: []}},
 		};
   }
@@ -16,7 +16,7 @@ class Table extends Component {
   loadData = () => {
     this.setState({ loading: true, error: false });
     this.props.api
-      .query()
+      .query(this.props.filter, this.state.size, this.state.from)
       .then(response => {
         if (this._isMount) {
 					this.setState({ loading: false, error: false, data: response.data });
@@ -35,21 +35,22 @@ class Table extends Component {
 	}
 	
 	next = () => {
-		console.log('next');
+		this.setState({from: Math.max(0, this.state.from + this.state.size)}, this.loadData);
 	}
 
 	prev = () => {
-		console.log('prev');
+		this.setState({from: Math.max(0, this.state.from - this.state.size)}, this.loadData);
 	}
 
 	first = () => {
-		console.log('first');
+		this.setState({from: 0}, this.loadData);
 	}
 
   render() {
-		return <TablePresentation result={this.state.data} next={this.next} prev={this.prev} first={this.first} size={this.state.page.size} from={this.state.page.from} />;
+		const TableView = this.props.components.TableView
+		return <TableView loading={this.state.loading} result={this.state.data} next={this.next} prev={this.prev} first={this.first} size={this.state.size} from={this.state.from} />
   }
 }
 
-const mapContextToProps = ({ api }) => ({ api });
+const mapContextToProps = ({ filter, api, components }) => ({ filter, api, components });
 export default withContext(mapContextToProps)(Table);

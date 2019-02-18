@@ -15,7 +15,7 @@ const keypressHandler = (event, cb) => {
   }
   return true;
 }
-const Action = ({ children, onSelect = () => {}, classes, className, ...rest }) => <span onClick={() => onSelect()} onKeyPress={e => keypressHandler(e, onSelect)} className={`${classes.button} ${className}`} {...rest} role="button" tabIndex="0">
+const Action = ({ children, onSelect = () => {}, classes, className, ...rest }) => <span onClick={() => onSelect()} onKeyPress={e => keypressHandler(e, onSelect)} className={`${classes.button} ${className ? className : ''}`} {...rest} role="button" tabIndex="0">
   {children}
 </span>
 

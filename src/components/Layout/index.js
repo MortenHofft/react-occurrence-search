@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import injectSheet from "react-jss";
 import withContext from "../../appState/withContext";
+import { ModalBlocker } from '../Modal'
 
 // import Count from "../count/Count";
 

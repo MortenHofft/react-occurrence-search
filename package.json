@@ -28,26 +28,29 @@
     "axios": "^0.18.0",
     "bodybuilder": "^2.2.16",
     "fast-deep-equal": "^2.0.1",
-    "lodash": "^4.17.11",
     "qs": "^6.6.0",
     "react-autocomplete": "^1.8.1",
     "react-intl": "^2.8.0",
-    "react-jss": "^8.6.1"
+    "react-jss": "^8.6.1",
+    "react-modal": "^3.8.1"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
     "@storybook/addon-actions": "^4.1.11",
     "@storybook/addon-links": "^4.1.11",
     "@storybook/addons": "^4.1.11",
     "@storybook/react": "^4.1.11",
+    "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.5",
     "inferno": "^5.6.1",
     "nwb": "0.23.x",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "source-map-explorer": "^1.6.0"
   },
   "author": "",
   "homepage": "",

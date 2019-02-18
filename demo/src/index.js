@@ -3,6 +3,8 @@ import { render } from "react-dom";
 
 import OccurrenceSearch from "../../src";
 import da from '../../src/locales/da';
+//import settings from './settingsComplex';
+import settings from './settings';
 
 const themeBlue = {
   primaryColor: "#00bfff"
@@ -31,7 +33,7 @@ class Demo extends Component {
           <button onClick={() => this.setState({ locale: da })}>Dansk</button>
         </div>
         <div style={{height: 'calc(100vh - 63px)'}}>
-          <OccurrenceSearch locale={this.state.locale} theme={this.state.theme} />
+          <OccurrenceSearch locale={this.state.locale} theme={this.state.theme} settings={settings}/>
         </div>
       </div>
     );

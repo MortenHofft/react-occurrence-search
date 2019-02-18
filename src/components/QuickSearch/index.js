@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import ReactAutocomplete from 'react-autocomplete';
 import injectSheet from 'react-jss';
 
