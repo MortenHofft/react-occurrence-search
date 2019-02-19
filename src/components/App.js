@@ -5,6 +5,7 @@ import Layout from './Layout';
 import QuickSearch from './QuickSearch';
 import AppMenu from './AppMenu';
 import Table from './views/Table';
+import Map from './views/Map';
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends Component {
           filterSummary={<div>Filters</div>}
           widgetDrawer={<div>widgets</div>}
           table={<Table />}
-          map={<div>Map</div>}
+          map={<Map />}
           gallery={<div>Gallery</div>}
           appMenu={<AppMenu />}
         />

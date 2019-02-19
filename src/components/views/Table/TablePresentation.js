@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import Table, { Th, Td } from '../../Table';
 import Action from '../../Action';
+import formatters from '../../../util/formatters';
+
 // TODO needs a loader and possibly an error handler (unless that belongs with the logic component as a general handler?)
 class TablePresentation extends Component {
   // shouldComponentUpdate(nextProps) {
   // 	return !equal(nextProps.result, props.result);
   // }
-  state = {};
+  state = {fixedColumn: true};
 
   getRows = () => {
     const { result } = this.props;
     const hits = result.hits.hits;
     const rows = hits.map(row => {
-      const cells = ['scientificName', 'year', 'basisOfRecord', 'datasetTitle'].map(
+      const cells = ['gbifScientificName', 'year', 'basisOfRecord', 'datasetTitle', 'publisherTitle', 'countryCode', 'gbifTaxonRank', 'gbifID'].map(
         (field, i) => {
-          if (i === 0) return <Td key={field}><Action onSelect={() => console.log(row._id)}>{row._source[field]}</Action></Td>;
-          else return <Td key={field}>{row._source[field]}</Td>;
+          const FormatedName = formatters(field).component;
+          const Presentation = <FormatedName id={row._source[field]} />;
+          if (i === 0) return <Td key={field}><Action onSelect={() => console.log(row._id)}>{Presentation}</Action></Td>;
+          else return <Td key={field}>{Presentation}</Td>;
         }
       );
       return <tr key={row._id}>{cells}</tr>;
@@ -25,24 +29,32 @@ class TablePresentation extends Component {
 
   render() {
     const { result, first, prev, next, size, from } = this.props;
-		const total = result.hits.total;
+    const total = result.hits.total;
 
     // config: {headers: [{title, width, field}], rows: []} - hmma bit unclear how to do that well.
     const headers = [
-      <Th key='scientificName' width='wide' locked={this.state.fixedColumn} toggle={e => {this.setState({fixedColumn: !this.state.fixedColumn})}}>
+      <Th key='scientificName' width='wide' locked={this.state.fixedColumn} toggle={e => { this.setState({ fixedColumn: !this.state.fixedColumn }) }}>
         scientificName
       </Th>,
-      <Th key='year' width='wide'>
+      <Th key='year'>
         year
       </Th>,
       <Th key='basisOfRecord' width='wide'>
-      basisOfRecord
-    </Th>,
+        basisOfRecord
+      </Th>,
       <Th key='datasetTitle' width='wide'>
         datasetTitle
+      </Th>,
+      <Th key='publisherTitle' width='wide'>
+        publisherTitle
+      </Th>,
+      <Th key='countryCode'>
+        countryCode
+      </Th>,
+      <Th key='gbifTaxonRank'>
+        rank
       </Th>
     ];
-    
 
     const table = (
       <Table fixedColumn={this.state.fixedColumn} {...{ first, prev, next, size, from, total }}>

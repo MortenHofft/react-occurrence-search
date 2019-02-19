@@ -3,6 +3,7 @@ import React from 'react';
 import AppContext from './AppContext';
 import api from '../api';
 import TablePresentation from '../components/views/Table/TablePresentation';
+import MapPresentation from '../components/views/Map/MapPresentation';
 import { get } from 'lodash';
 
 export const views = {
@@ -16,7 +17,8 @@ class StateProvider extends React.Component {
     super(props);
 
     const components = {
-      TableView: get(props, 'settings.components.TableView', TablePresentation)
+      TableView: get(props, 'settings.components.TableView', TablePresentation),
+      MapView: get(props, 'settings.components.MapView', MapPresentation),
     }
 
     this.state = {
