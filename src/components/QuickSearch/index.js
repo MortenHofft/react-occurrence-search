@@ -255,3 +255,12 @@ const styles = theme => {
 
 const mapContextToProps = ({ filter, stateApi, api, components }) => ({ filter, updateFilter: stateApi.updateFilter, api, components });
 export default withContext(mapContextToProps)(injectSheet(styles)(QuickSearch));
+
+import MultiSuggest from './suggest';
+
+let suggester = MultiSuggest();
+suggester('basi')
+  .then(suggestions => {
+    console.log(suggestions);
+  })
+  .catch(err => console.log(err));

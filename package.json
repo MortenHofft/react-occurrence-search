@@ -31,6 +31,7 @@
     "history": "^4.7.2",
     "mapbox-gl": "^0.53.0",
     "qs": "^6.6.0",
+    "querystringify": "^2.1.0",
     "react-autocomplete": "^1.8.1",
     "react-fast-compare": "^2.0.4",
     "react-intl": "^2.8.0",
@@ -41,7 +42,8 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
     "@babel/node": "^7.2.2",
     "@storybook/addon-actions": "^4.1.11",
     "@storybook/addon-links": "^4.1.11",

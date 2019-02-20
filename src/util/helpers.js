@@ -37,3 +37,17 @@ export const strToHash = function (str) {
 	}
 	return hash;
 };
+
+export const promiseAll = async obj => {
+  if (Array.isArray(obj)) return Promise.all(obj);
+  // else map the obj
+  const keys = Object.keys(obj);
+  const promises = keys.map(key => obj[key]);
+  const results = await Promise.all(promises);
+  // map back to obj
+  let mappedPromises = {};
+  keys.forEach((key, index) => {
+    mappedPromises[key] = results[index];
+  });
+  return mappedPromises;
+};
