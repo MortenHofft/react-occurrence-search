@@ -6,5 +6,5 @@ const Map = ({components, ...rest}) => {
   return <MapView {...rest} />
 }
 
-const mapContextToProps = ({ filter, api, components }) => ({ filter, api, components });
+const mapContextToProps = ({ filter, filterHash, api, components }) => ({ filter, filterHash, api, components });
 export default withContext(mapContextToProps)(Map);

@@ -6,4 +6,4 @@ if (typeof window !== 'undefined') {
   createBrowserHistory = require('history').createBrowserHistory();
 }
 
-module.exports = createBrowserHistory;
+export default createBrowserHistory;

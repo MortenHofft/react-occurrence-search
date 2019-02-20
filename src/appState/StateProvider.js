@@ -4,8 +4,10 @@ import AppContext from './AppContext';
 import api from '../api';
 import TablePresentation from '../components/views/Table/TablePresentation';
 import MapPresentation from '../components/views/Map/MapPresentation';
-import { get, assign } from 'lodash';
-import { getFilterAsURICompoment } from './stateHelper';
+import { get } from 'lodash';
+import { getFilterFromUrl, getUpdatedFilter, pushStateToUrl } from './stateHelper';
+import { strToHash } from '../util/helpers';
+import history from './history';
 
 export const views = {
   TABLE: 'TABLE',
@@ -22,13 +24,18 @@ class StateProvider extends React.Component {
       MapView: get(props, 'settings.components.MapView', MapPresentation),
     }
 
+    let filter = getFilterFromUrl(window.location.search);
+    this.unlisten = history.listen((location, action) => {
+      this.updateStateFilter(getFilterFromUrl(location.search));
+    });
+
     this.state = {
       appRef: React.createRef(),
       activeView: views.TABLE,
-      filter: {},//{year: [2018, {gte: 1928, lt:1929}]}, // current filter
+      filter,//{year: [2018, {gte: 1928, lt:1929}]}, // current filter
       stateApi: {
         updateView: this.updateView, // update the active view
-        addToFilter: this.addToFilter, // updates a single field
+        updateFilter: this.updateFilter, // updates a single field
         // updateQuery, // sets the full query
       },
       components,
@@ -38,33 +45,20 @@ class StateProvider extends React.Component {
 
   updateView = selected => {
     if (!views[selected]) return;
-    this.setState({activeView: selected});
+    this.setState({ activeView: selected });
   }
 
-  addMustFilter = (filterName, values) => {
-    /*
-     get full updated filter
-     update url 
-     */
-    // const newValues = [...new Set(values)];
-    // const query = assign({}, this.state.filter.query, {[filterName]: newValues})
-    // updateQuery(query);
+  updateFilter = options => {
+    const filter = getUpdatedFilter(this.state.filter, options);
+    pushStateToUrl(filter);
   }
 
-  updateFilterInUrl = filter => {
-    if (stateHelper.isEmptyQuery(query)) {
-      history.push(window.location.pathname);
-    } else {
-      history.push(window.location.pathname + '?filter=' + stateHelper.getFilterAsURICompoment(query));
-    }
-  }
-
-  updateQuery(query) {
-    if (Object.keys(query).length === 0) {
-      history.push(window.location.pathname);
-    } else {
-      history.push(window.location.pathname + '?filter=' + getFilterAsURICompoment(query));
-    }
+  updateStateFilter = filter => {
+    const filterHash = strToHash(JSON.stringify(filter));
+    this.setState({
+      filter,
+      filterHash
+    });
   }
 
   render() {

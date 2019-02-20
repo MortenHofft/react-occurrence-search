@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactAutocomplete from 'react-autocomplete';
 import injectSheet from 'react-jss';
 import withContext from '../../appState/withContext';
+import { suggest } from './suggest';
 
 // import MultiSuggest from './MultiSuggest';
 // import ModalFilter from '../ModalFilter';
@@ -35,34 +36,25 @@ class QuickSearch extends Component {
 
     // this.suggester = MultiSuggest();
 
-    this.state = { value: '' };
+    this.state = { value: '', suggestions: [] };
   }
 
   onChange = searchText => {
     this.setState({
       value: searchText,
       suggestions: [
-        {}
-      ]
+      ],
+      loading: true
     });
-    // the suggester is expected to return 
-    // this.suggester(val)
-    //   .then((suggestions) => {
-    //     this.setState({suggestions: suggestions});
-    //   })
-    //   .catch((err) => (console.log(err)));
-    // }
+    suggest(searchText)
+      .then((suggestions) => {
+        this.setState({suggestions: suggestions, loading: false});
+      })
+      .catch((err) => (console.log(err)));
   }
 
   onSelect = item => {
-    this.props.addToFilter('filtername', [1,2,3]);
-    // the suggester is expected to return 
-    // this.suggester(val)
-    //   .then((suggestions) => {
-    //     this.setState({suggestions: suggestions});
-    //   })
-    //   .catch((err) => (console.log(err)));
-    // }
+    this.props.updateFilter({key: item.field, value: item.value});
   }
 
   // onChange(val) {
@@ -171,28 +163,6 @@ class QuickSearch extends Component {
     //   });
     //   items = _.concat(items, this.state.suggestions);
     // }
-
-    const items = [
-      {
-        title: 'Basidiomycota',
-        field: 'gbifTaxonKey',
-        description: <div>Kingdom > phylum > class > order > family > genus</div>,
-        id: 143,
-        value: 143
-      },
-      {
-        title: 'Denmark',
-        field: 'country',
-        id: 'DK',
-        value: 'DK'
-      },
-      {
-        title: '1981-2019',
-        field: 'year',
-        id: '1981-2019',
-        value: { gte: 1981, lt: 2019 }
-      }
-    ];
     
     const renderItem = (item, highlighted) => (
       <div className={highlighted ? classes.suggestHighlight : classes.suggestItem} key={`${item.type}_${item.id}`}>
@@ -201,11 +171,14 @@ class QuickSearch extends Component {
       </div>
     );
 
+    const items = this.state.suggestions;
+    console.log(this.state.suggestions);
+
     return (
       <React.Fragment>
         <div className={classes.searchBar}>
           <ReactAutocomplete
-            // open={!!this.state.value || this.state.forceOpen}
+            open={true || !!this.state.value || this.state.forceOpen}
             autoHighlight={true}
             // wrapperProps={{className: classes.searchBarSuggest}}
             renderMenu={children =>
@@ -216,14 +189,14 @@ class QuickSearch extends Component {
             // isItemSelectable={item => !item.disabled}
             wrapperStyle={{}}
             items={items}
-            getItemValue={item => item.title}
+            getItemValue={item => {console.log(item.value); console.log(item); return item.title}}
             renderItem={renderItem}
             inputProps={{ placeholder: 'Scientific name, country or year range' }}
             // inputProps={{ placeholder: 'Search', onKeyUp: this.onKeyUp, onBlur: this.onBlur }}
             value={this.state.value}
             menuStyle={menuStyle}
             onChange={e => this.onChange(e.target.value)}
-            onSelect={value => this.onSelect(value)}
+            onSelect={(value, item) => this.onSelect(item)}
           />
         </div>
       </React.Fragment>
@@ -280,5 +253,5 @@ const styles = theme => {
   };
 }
 
-const mapContextToProps = ({ filter, stateApi, api, components }) => ({ filter, addToFilter: stateApi.addToFilter, api, components });
+const mapContextToProps = ({ filter, stateApi, api, components }) => ({ filter, updateFilter: stateApi.updateFilter, api, components });
 export default withContext(mapContextToProps)(injectSheet(styles)(QuickSearch));

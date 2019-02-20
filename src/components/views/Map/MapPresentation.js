@@ -52,8 +52,8 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.filter.hash !== this.props.filter.hash) {
-      this.updateLayer();
+    if (prevProps.filterHash !== this.props.filterHash) {
+			this.updateLayer();
     }
   }
 

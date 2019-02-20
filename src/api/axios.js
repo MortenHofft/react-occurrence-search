@@ -19,10 +19,12 @@ function post(url, body, options) {
   options.cancelToken = new CancelToken(function executor(c) {
     cancel = c;
   });
-  //let p = axios.post(url, body, options);
-  let tmp = result.hits.hits.shift();
-  result.hits.hits.push(tmp);
-  let p = new Promise(resolve => resolve({data: result}));
+  
+  let p = axios.post(url, body, options);
+  // let tmp = result.hits.hits.shift();
+  // result.hits.hits.push(tmp);
+  // let p = new Promise(resolve => resolve({data: result}));
+
   p.cancel = cancel;
   return p;
 }

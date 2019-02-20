@@ -62,7 +62,7 @@ describe('StateHelper updateFilter', () => {
     const options = {key: 'datasetKey', value: ['new_dataset_1', 'new_dataset_2'], action: 'ADD', isNegated: true};
     const expectedResult = {
       must: {datasetKey: ['old_dataset']},
-      must_not: {datasetKey: ['new_dataset_1', 'new_dataset_2']}
+      mustNot: {datasetKey: ['new_dataset_1', 'new_dataset_2']}
     };
     expect(stateHelper.getUpdatedFilter(initialFilter, options)).toEqual(expectedResult);
   });
