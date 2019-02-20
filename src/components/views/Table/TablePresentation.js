@@ -14,7 +14,7 @@ class TablePresentation extends Component {
     const { result } = this.props;
     const hits = result.hits.hits;
     const rows = hits.map(row => {
-      const cells = ['gbifScientificName', 'year', 'basisOfRecord', 'datasetTitle', 'publisherTitle', 'countryCode', 'gbifTaxonRank', 'gbifID'].map(
+      const cells = ['gbifScientificName', 'year', 'basisOfRecord', 'datasetTitle', 'publisherTitle', 'countryCode', 'gbifTaxonRank'].map(
         (field, i) => {
           const FormatedName = formatters(field).component;
           const Presentation = <FormatedName id={row._source[field]} />;

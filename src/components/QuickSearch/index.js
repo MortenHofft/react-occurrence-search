@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactAutocomplete from 'react-autocomplete';
 import injectSheet from 'react-jss';
+import withContext from '../../appState/withContext';
 
 // import MultiSuggest from './MultiSuggest';
 // import ModalFilter from '../ModalFilter';
@@ -44,6 +45,17 @@ class QuickSearch extends Component {
         {}
       ]
     });
+    // the suggester is expected to return 
+    // this.suggester(val)
+    //   .then((suggestions) => {
+    //     this.setState({suggestions: suggestions});
+    //   })
+    //   .catch((err) => (console.log(err)));
+    // }
+  }
+
+  onSelect = item => {
+    this.props.addToFilter('filtername', [1,2,3]);
     // the suggester is expected to return 
     // this.suggester(val)
     //   .then((suggestions) => {
@@ -211,7 +223,7 @@ class QuickSearch extends Component {
             value={this.state.value}
             menuStyle={menuStyle}
             onChange={e => this.onChange(e.target.value)}
-          // onSelect={value => this.onSelect(value)}
+            onSelect={value => this.onSelect(value)}
           />
         </div>
       </React.Fragment>
@@ -267,4 +279,6 @@ const styles = theme => {
     }
   };
 }
-export default injectSheet(styles)(QuickSearch);
+
+const mapContextToProps = ({ filter, stateApi, api, components }) => ({ filter, addToFilter: stateApi.addToFilter, api, components });
+export default withContext(mapContextToProps)(injectSheet(styles)(QuickSearch));

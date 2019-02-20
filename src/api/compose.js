@@ -20,6 +20,7 @@ function compose(query) {
   query = query || {};
   let builder = bodybuilder();
   // iterate all filters and add all to the builder
+  // TODO might be worth doing this sorting fields and values, so that 2 queries, with different order gets cahced the same
   Object.entries(query).forEach(([filterName, values]) => {
     const filterConverter = filters[filterName];
     if (filterConverter) {
