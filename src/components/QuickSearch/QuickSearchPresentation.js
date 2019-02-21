@@ -43,7 +43,7 @@ class QuickSearch extends Component {
         ],
         loading: true
       });
-      this.suggestPromise = this.props.suggest(searchText, 5, this.props.intl);
+      this.suggestPromise = this.props.suggest(searchText, 3, this.props.intl);
       this.suggestPromise.then((suggestions) => {
           this.setState({ suggestions: suggestions, loading: false });
         })

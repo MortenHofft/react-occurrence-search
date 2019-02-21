@@ -73,9 +73,9 @@ class Map extends Component {
     filter = this.props.api.compose(filter).build();
     var tileString =
       //"https://esmap.gbif-dev.org/api/tile/{x}/{y}/{z}.mvt?field=coordinates&url=" +
-      "http://labs.gbif.org:7012/api/tile/point/{x}/{y}/{z}.mvt?field=coordinates&url=" +
+      // "http://labs.gbif.org:7012/api/tile/point/{x}/{y}/{z}.mvt?field=coordinates&url=" +
       // "http://localhost:3000/api/tile/significant/{x}/{y}/{z}.mvt?field=coordinate_point&significantField=backbone.speciesKey&url=" +
-      // "http://localhost:3000/api/tile/point/{x}/{y}/{z}.mvt?field=coordinate_point&url=" +
+      "http://localhost:3001/api/tile/point/{x}/{y}/{z}.mvt?field=coordinates&url=" +
       encodeURIComponent(`http:${this.props.api.esEndpoint}/_search?`) +
       "&filter=" +
       JSON.stringify(filter.query);

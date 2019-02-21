@@ -123,5 +123,19 @@ export const speciesSuggest = (q, limit) => {
   return p2;
 }
 
-import {getEnumSuggest} from '../../api/suggest/helper';
-export const borSuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/BasisOfRecord'})
+import {getEnumSuggest, getYearSuggest} from '../../api/suggest/helper';
+// export const borSuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/Country', field: 'countryCode', translationNamespace: 'enum.country'})
+// export const borSuggest = getYearSuggest({field: 'year', translationNamespace: 'enum.country'})
+//export const borSuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/BasisOfRecord', field: 'basisOfRecord'})
+
+const countrySuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/Country', field: 'countryCode', translationNamespace: 'enum.country'})
+const yearSuggest = getYearSuggest({field: 'year'})
+export const suggestMany = async (q, limit, intl) => {
+  const countryP = countrySuggest(q, limit, intl);
+  const yearP = yearSuggest(q, limit, intl);
+  const speciesP = speciesSuggest(q, limit, intl);
+  const p = promiseAll([speciesP, countryP, yearP]);
+  let p2 = p.then(results => [...results[0], ...results[1], ...results[2]]);
+  p2.cancel = () => {speciesP.cancel(); countryP.cancel();}
+  return p2;
+}
