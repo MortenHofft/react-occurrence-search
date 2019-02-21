@@ -67,6 +67,7 @@ const styles = theme => {
     },
     table: {
       position: 'relative', // layout
+      minWidth: '100%',
       borderCollapse: 'separate',
       background: 'white',
       borderSpacing: 0,

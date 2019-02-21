@@ -7,7 +7,7 @@ import {
   set,
   omitBy,
   isEmpty,
-  uniqBy
+  uniqWith
 } from 'lodash';
 import isEqual from 'react-fast-compare';
 import history from './history';
@@ -67,6 +67,7 @@ export const getUpdatedFilter = (immutableFilter, options) => {
     filter.freetext = action === 'ADD' ? value : undefined;
     return filter;
   }
+  
   const type = isNegated ? 'mustNot' : 'must';
   const valueArray = asArray(value);
 
@@ -74,9 +75,9 @@ export const getUpdatedFilter = (immutableFilter, options) => {
   if (action === 'CLEAR') {
     paramValues = '';
   } else if (action === 'ADD') {
-    paramValues = uniqBy(paramValues.concat(value), isEqual);
+    paramValues = uniqWith(paramValues.concat(valueArray), isEqual);
   } else if (action === 'UPDATE') {
-    paramValues = uniqBy([].concat(value));
+    paramValues = uniqWith([].concat(valueArray), isEqual);
   } else if (action === 'REMOVE') {
     pullAll(paramValues, valueArray);
   } else {

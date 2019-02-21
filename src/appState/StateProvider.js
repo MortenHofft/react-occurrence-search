@@ -4,6 +4,7 @@ import AppContext from './AppContext';
 import api from '../api';
 import TablePresentation from '../components/views/Table/TablePresentation';
 import MapPresentation from '../components/views/Map/MapPresentation';
+import QuickSearchPresentation from '../components/QuickSearch/QuickSearchPresentation';
 import { get } from 'lodash';
 import { getFilterFromUrl, getUpdatedFilter, pushStateToUrl } from './stateHelper';
 import { strToHash } from '../util/helpers';
@@ -22,6 +23,7 @@ class StateProvider extends React.Component {
     const components = {
       TableView: get(props, 'settings.components.TableView', TablePresentation),
       MapView: get(props, 'settings.components.MapView', MapPresentation),
+      QuickSearch: get(props, 'settings.components.QuickSearch', QuickSearchPresentation),
     }
 
     let filter = getFilterFromUrl(window.location.search);
@@ -49,7 +51,10 @@ class StateProvider extends React.Component {
   }
 
   updateFilter = options => {
+    console.log(options);
     const filter = getUpdatedFilter(this.state.filter, options);
+    
+    console.log(filter);
     pushStateToUrl(filter);
   }
 

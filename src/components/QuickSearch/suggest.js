@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosCancel from '../../api/axios';
 import qs from 'querystringify';
 import { promiseAll } from '../../util/helpers';
 
@@ -6,7 +7,7 @@ let CancelToken = axios.CancelToken;
 
 export const suggest = str => {
   return new Promise((resolve, reject) => {
-    resolve(items.filter(x => x.title.startsWith(str)));
+    setTimeout(() => resolve(items.filter(x => x.title.startsWith(str))), 1000);
   });
 };
 
@@ -14,20 +15,20 @@ const items = [
   {
     title: 'Basidiomycota',
     field: 'taxon',
-    description: 'Kingdom > phylum > class > order > family > genus',
-    id: 34,
+    description: <div>Kingdom > phylum > class > order > family > genus</div>,
+    _key: 34,
     value: 34
   },
   {
     title: 'Denmark',
     field: 'countryCode',
-    id: 'DK',
+    _key: 'DK',
     value: 'DK'
   },
   {
     title: '1981-2010',
     field: 'year',
-    id: '1981-2010', //1981 <= year <2019
+    _key: '1981-2010', //1981 <= year <2019
     value: { gte: 1981, lt: 2010 }
   }
 ];
@@ -104,3 +105,23 @@ function MultiSuggest() {
 }
 
 export default MultiSuggest;
+
+export const speciesSuggest = (q, limit) => {
+  let p = axiosCancel.get('//api.gbif.org/v1/species/suggest' + qs.stringify({ q, limit }, true));
+  let p2 = p.then(response => {
+    const result = response.data;
+    return result.map((item, index) => ({
+      title: item.scientificName,
+      value: item.key,
+      _key: index,
+      _field: 'taxon'
+    }));
+  }).catch(err => {
+    throw err;
+  });
+  p2.cancel = p.cancel;
+  return p2;
+}
+
+import {getEnumSuggest} from '../../api/suggest/helper';
+export const borSuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/BasisOfRecord'})

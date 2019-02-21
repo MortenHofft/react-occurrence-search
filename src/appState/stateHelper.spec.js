@@ -1,6 +1,9 @@
 import expect from 'expect';
 import stateHelper from './stateHelper';
 
+import isEqual from 'react-fast-compare';
+console.log(isEqual({a: 6}, {a: 6}));
+console.log(isEqual(5, 5));
 // Test that filters are updated correctly when using the State API
 describe('StateHelper updateFilter', () => {
   it('can add new key', () => {
@@ -8,6 +11,24 @@ describe('StateHelper updateFilter', () => {
     const options = {key: 'datasetKey', value: '123', action: 'ADD'};
     const expectedResult = {
       must: {datasetKey: ['123']}
+    };
+    expect(stateHelper.getUpdatedFilter(initialFilter, options)).toEqual(expectedResult);
+  });
+
+  it('can add an additional term to a key', () => {
+    const initialFilter = {must: {datasetKey: ['old_dataset']}};
+    const options = {key: 'datasetKey', value: '123', action: 'ADD'};
+    const expectedResult = {
+      must: {datasetKey: ['old_dataset', '123']}
+    };
+    expect(stateHelper.getUpdatedFilter(initialFilter, options)).toEqual(expectedResult);
+  });
+
+  it('can handle objects as values', () => {
+    const initialFilter = {must: {year: [1980]}};
+    const options = {key: 'year', value: [{gte: 1970, lt: 2000}, {gte: 1970, lt: 2000}], action: 'ADD'};
+    const expectedResult = {
+      must: {year: [1980, {gte: 1970, lt: 2000}] }
     };
     expect(stateHelper.getUpdatedFilter(initialFilter, options)).toEqual(expectedResult);
   });
