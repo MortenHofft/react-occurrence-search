@@ -27,6 +27,7 @@ class Layout extends Component {
         {/* <div className={classes.summary}>
           {this.props.filterSummary}
         </div> */}
+        <ModalBlocker><h1>abc</h1></ModalBlocker>
         <div className={classes.body}>
           <div className={classes.main}>
             {mainContent}

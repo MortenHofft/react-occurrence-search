@@ -31,6 +31,7 @@ class Search extends Component {
         loading: true
       });
       this.suggestPromise = suggestMany(searchText, 3, this.props.intl);
+      console.log(this.suggestPromise.cancel);
       this.suggestPromise.then((suggestions) => {
         this.setState({ suggestions: suggestions, loading: false });
       })

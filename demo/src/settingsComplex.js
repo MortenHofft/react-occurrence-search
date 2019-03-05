@@ -4,7 +4,7 @@ const settings = {
       const { result } = props;
       const hits = result.hits.hits;
       const rows = hits.map(row => {
-        const cells = ['scientificName', 'year'].map(
+        const cells = ['gbifScientificName', 'year'].map(
           (field, i) => <td key={field}>{ row._source[field] }</td>
         );
         return <tr key={row._id}>{cells}</tr>;

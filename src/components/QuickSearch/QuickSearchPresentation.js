@@ -106,7 +106,12 @@ const styles = theme => {
     suggestItem,
     itemType: {
       fontSize: `${Math.round(theme.fontSizePx * 0.85)}px`,
-      color: '#aaa'
+      color: '#aaa',
+      border: '1px solid #aaa',
+      padding: '2px 5px',
+      background: '#efefef',
+      borderRadius: 3,
+      marginLeft: 10
     },
     itemTitle: {
       //fontSize: `${Math.round(theme.fontSizePx*0.85)}px`,

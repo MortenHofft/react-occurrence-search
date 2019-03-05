@@ -1,3 +1,5 @@
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-filters-aggregation.html#search-aggregations-bucket-filters-aggregation
+// might be worth looking into smarter aggregations using filters when there is a small cardinality (enums)
 /**
  * Build an ES query based on the app representation of a filter. 
  * This is a subset of what is possible in ES and only generates search queries, not aggregations and similar.

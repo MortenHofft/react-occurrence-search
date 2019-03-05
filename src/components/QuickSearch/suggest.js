@@ -1,3 +1,4 @@
+import React from 'react';
 import axios from 'axios';
 import axiosCancel from '../../api/axios';
 import qs from 'querystringify';
@@ -130,7 +131,8 @@ import {getEnumSuggest, getYearSuggest} from '../../api/suggest/helper';
 
 const countrySuggest = getEnumSuggest({endpoint: '//api.gbif.org/v1/enumeration/basic/Country', field: 'countryCode', translationNamespace: 'enum.country'})
 const yearSuggest = getYearSuggest({field: 'year'})
-export const suggestMany = async (q, limit, intl) => {
+
+export const suggestMany = (q, limit, intl) => {
   const countryP = countrySuggest(q, limit, intl);
   const yearP = yearSuggest(q, limit, intl);
   const speciesP = speciesSuggest(q, limit, intl);

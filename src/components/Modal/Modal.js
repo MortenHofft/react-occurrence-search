@@ -6,14 +6,23 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.el = document.createElement("div");
+    document.body.appendChild(this.el);
   }
 
   componentDidMount() {
-    if (this.props.appRef.current) this.props.appRef.current.appendChild(this.el);
+    if (this.props.appRef.current) {
+      this.mounted = true;
+      this.props.appRef.current.appendChild(this.el);
+    }
   }
 
   componentWillUnmount() {
-    if (this.props.appRef.current) this.props.appRef.current.removeChild(this.el);
+    // if (this.props.appRef.current && this.mounted) {
+    if (this.mounted) {
+      this.props.appRef.current.removeChild(this.el);
+      document.body.removeChild(this.el);
+      this.mounted = false;
+    }
   }
 
   render() {
