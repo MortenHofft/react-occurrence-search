@@ -51,10 +51,7 @@ class StateProvider extends React.Component {
   }
 
   updateFilter = options => {
-    console.log(options);
     const filter = getUpdatedFilter(this.state.filter, options);
-    
-    console.log(filter);
     pushStateToUrl(filter);
   }
 

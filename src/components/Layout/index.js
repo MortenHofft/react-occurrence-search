@@ -3,6 +3,7 @@ import injectSheet from "react-jss";
 import withContext from "../../appState/withContext";
 import { ModalBlocker } from '../Modal'
 
+import EnumFilterSimple from '../filters/EnumFilterSimple';
 // import Count from "../count/Count";
 
 class Layout extends Component {
@@ -27,7 +28,7 @@ class Layout extends Component {
         {/* <div className={classes.summary}>
           {this.props.filterSummary}
         </div> */}
-        <ModalBlocker><h1>abc</h1></ModalBlocker>
+        <ModalBlocker><EnumFilterSimple options={['HUMAN_OBSERVATION', 'LIVING_SPECIMEN', 'MACHINE_OBSERVATION']} filterKey='basisOfRecord'/></ModalBlocker>
         <div className={classes.body}>
           <div className={classes.main}>
             {mainContent}
